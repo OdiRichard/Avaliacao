@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Lista de Clientes</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 40px;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: auto;
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .botao-adicionar {
+        display: inline-block;
+        background-color: #198754;
+        color: white;
+        text-decoration: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+      }
+
+      .botao-adicionar:hover {
+        background-color: #146c43;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+      }
+
+      th {
+        background-color: #212529;
+        color: white;
+      }
+
+      .editar {
+        background-color: #0d6efd;
+        color: white;
+        padding: 7px 10px;
+        text-decoration: none;
+        border-radius: 4px;
+      }
+
+      .deletar {
+        background-color: #dc3545;
+        color: white;
+        padding: 7px 10px;
+        text-decoration: none;
+        border-radius: 4px;
+      }
+
+      .editar:hover {
+        background-color: #0b5ed7;
+      }
+
+      .deletar:hover {
+        background-color: #bb2d3b;
+      }
+
+      .vazio {
+        text-align: center;
+        padding: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Lista de Clientes</h1>
+
+      <a href="{{ url_for('adicionar') }}" class="botao-adicionar">
+        + Adicionar Cliente
+      </a>
+
+      {% if clientes %}
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>CPF</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for cliente in clientes %}
+
+          <tr>
+            <td>{{ cliente.id }}</td>
+
+            <td>{{ cliente.nome }}</td>
+
+            <td>{{ cliente.email }}</td>
+
+            <td>{{ cliente.cpf }}</td>
+
+            <td>
+              <a href="{{ url_for('editar', id=cliente.id) }}" class="editar">
+                Editar
+              </a>
+
+              <a
+                href="{{ url_for('deletar', id=cliente.id) }}"
+                class="deletar"
+                onclick="
+                  return confirm(
+                    'Tem certeza que deseja excluir este cliente?',
+                  );
+                "
+              >
+                Excluir
+              </a>
+            </td>
+          </tr>
+
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% else %}
+
+      <div class="vazio">
+        <p>Nenhum cliente cadastrado.</p>
+      </div>
+
+      {% endif %}
+    </div>
+  </body>
+</html>
